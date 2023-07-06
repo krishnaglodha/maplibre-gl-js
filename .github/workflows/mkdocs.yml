@@ -1,0 +1,76 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - jsdocs-tsdocs
+      - fix/mkdocsCI
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.14.0'  # Modify if needed
+
+      - name: Install npm dependencies
+        run: npm install
+    
+      - name: Create NPM pages
+        run: npm run generate-docs
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'  
+
+      - name: Install mkdocs-material
+        run: pip install mkdocs-material
+
+      - name: Build documentation
+        run: |
+          mkdocs build -d mkdocs_docs
+
+      - name: Create docs folder in gh-pages branch
+        run: |
+          git config --local user.email "krishnaglodha@gmail.com"
+          git config --local user.name "Krishna Lodha"
+          git checkout -b gh-pages
+          rm rf docs
+          mkdir -p docs
+          git add docs
+          git commit -m "Create docs folder"
+          git push origin gh-pages
+
+      - name: Copy mydocs_docs folder to docs folder
+        run: |
+          git config --local user.email "krishnaglodha@gmail.com"
+          git config --local user.name "Krishna Lodha"
+          git checkout fix/mkdocsCI -- mydocs_docs
+          git checkout gh-pages -- docs
+          cp -R mydocs_docs/. docs/.
+          git add .
+          git commit -m "Copy mydocs_docs folder to docs folder"
+          git push origin gh-pages
+     
+      # - name: Deploy to gh-pages branch
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GH_TOKEN }}
+      #     publish_dir: ./mkdocs_docs
+
+      # - name: Commit and push changes
+      #   run: |
+      #     git config --local user.email "krishnaglodha@gmail.com"
+      #     git config --local user.name "krishnaglodha"
+      #     git add -A
+      #     git commit -m "Update documentation" || echo "No changes to commit"
+      #     git push

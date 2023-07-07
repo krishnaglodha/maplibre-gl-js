@@ -45,13 +45,13 @@ jobs:
           git config --local user.name "Krishna Lodha"
           git checkout -b gh-pages
           git config pull.ff only
-          git pull origin/gh-pages
+          git pull gh-pages
           
           rm -rf docs
           mkdir -p docs
           git add docs
           git commit -m "Create docs folder"
-          git push origin/gh-pages
+          git push gh-pages
 
       - name: Copy mydocs_docs folder to docs folder
         run: |

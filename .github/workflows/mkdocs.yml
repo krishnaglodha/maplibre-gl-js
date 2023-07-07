@@ -39,8 +39,8 @@ jobs:
         run: |
           mkdocs build -d mkdocs_docs
 
-          - name: Copy mkdocs_docs to docs
-          run: |
+      - name: Copy mkdocs_docs to docs
+        run: |
             cp -R mkdocs_docs docs
             git add -A
             git commit -m "Copy mkdocs_docs to docs" || true

@@ -44,7 +44,7 @@ jobs:
           git config --local user.email "krishnaglodha@gmail.com"
           git config --local user.name "Krishna Lodha"
           git checkout -b gh-pages
-          git config pull.ff only
+          git config pull.rebase true 
           git pull origin gh-pages
           
           rm -rf docs

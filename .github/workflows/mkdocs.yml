@@ -44,6 +44,7 @@ jobs:
           git config --local user.email "krishnaglodha@gmail.com"
           git config --local user.name "Krishna Lodha"
           git checkout -b gh-pages
+          git pull origin gh-pages
           rm -rf docs
           mkdir -p docs
           git add docs
@@ -61,16 +62,16 @@ jobs:
           git commit -m "Copy mydocs_docs folder to docs folder"
           git push origin gh-pages
      
-      # - name: Deploy to gh-pages branch
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GH_TOKEN }}
-      #     publish_dir: ./mkdocs_docs
+    #   - name: Deploy to gh-pages branch
+    #     uses: peaceiris/actions-gh-pages@v3
+    #     with:
+    #       github_token: ${{ secrets.GH_TOKEN }}
+    #       publish_dir: ./mkdocs_docs
 
-      # - name: Commit and push changes
-      #   run: |
-      #     git config --local user.email "krishnaglodha@gmail.com"
-      #     git config --local user.name "krishnaglodha"
-      #     git add -A
-      #     git commit -m "Update documentation" || echo "No changes to commit"
-      #     git push
+    #   - name: Commit and push changes
+    #     run: |
+    #       git config --local user.email "krishnaglodha@gmail.com"
+    #       git config --local user.name "krishnaglodha"
+    #       git add -A
+    #       git commit -m "Update documentation" || echo "No changes to commit"
+    #       git push
